@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Random Sound Player</title>
+<script>
+window.onload = function() {
+    const fileInput = document.getElementById('sound-upload');
+    let audio = new Audio();
+
+    fileInput.addEventListener('change', function(event) {
+        const files = event.target.files;
+        if (files.length > 0) {
+            const soundFile = URL.createObjectURL(files[0]);
+            audio.src = soundFile;
+            playRandomSound(audio);
+        }
+    });
+
+    function playRandomSound(audioElement) {
+        const playSound = () => {
+            if (!audioElement.paused) {
+                audioElement.pause();
+            }
+            audioElement.currentTime = 0;
+            audioElement.play();
+            setTimeout(playSound, Math.random() * 1000 * (60 * 2)); 
+        };
+        playSound();
+    }
+};
+</script>
+</head>
+<body>
+<h1>Welcome to the Random Sound Player!</h1>
+<input type="file" id="sound-upload" accept="audio/*" />
+</body>
+</html>
